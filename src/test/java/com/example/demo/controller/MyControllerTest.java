@@ -1,4 +1,5 @@
 package com.example.demo.controller;
+import com.example.demo.DemoApplication;
 import com.example.demo.dto.Person;
 import com.example.demo.sao.MySao;
 import com.example.demo.service.MyService;
@@ -10,19 +11,29 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.modules.junit4.PowerMockRunnerDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 import static org.mockito.Mockito.when;
 /**
  * @Author huct
  * @Date 2019/7/20 - 9:01
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
+@PowerMockRunnerDelegate(SpringJUnit4ClassRunner.class)
+@RunWith(PowerMockRunner.class)
+@PowerMockIgnore(value = { "javax.management.*", "javax.net.ssl.*", "javax.net.SocketFactory" })
+@PrepareForTest({ MyServiceImpl.class })
+@SpringBootTest(classes = DemoApplication.class)
 public class MyControllerTest {
     @Autowired
     MyController myController;
+
 
     @Mock
     MySao mySao;
@@ -39,7 +50,6 @@ public class MyControllerTest {
         MockitoAnnotations.initMocks(this);
     }
 
-
     @Test
     public void testGetPer(){
         when(mySao.findPer()).thenReturn(new Person("huctmock"));
@@ -47,7 +57,10 @@ public class MyControllerTest {
         Person pr = myController.getPer();
         Person person = new Person("huctmock");
         Assert.assertEquals(person,pr);
-        //System.out.println("===myService====="+myService.queryPer());
+        System.out.println("===myService====="+myService.queryPer());
+        PowerMockito.mockStatic(MyServiceImpl.class);
+        when(MyServiceImpl.getStr()).thenReturn("mockstatic");
+        System.out.println(myController.getstrf());
     }
 }
 

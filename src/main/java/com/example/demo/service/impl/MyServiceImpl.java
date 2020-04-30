@@ -20,4 +20,8 @@ public class MyServiceImpl implements MyService {
     public Person queryPer() {
         return mySao.findPer();
     }
+
+    public static String getStr(){
+
+        return "real" ;}
 }

@@ -8,4 +8,6 @@ import com.example.demo.dto.Person;
  */
 public interface MyService {
     public Person queryPer();
+
+    public String testPri();
 }

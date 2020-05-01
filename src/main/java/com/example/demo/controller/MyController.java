@@ -27,5 +27,9 @@ public class MyController {
     public String getstrf(){
         return MyServiceImpl.getStr();
     }
+
+    public String testPrivate(){
+        return myService.testPri();
+    }
 }
 

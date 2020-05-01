@@ -51,16 +51,28 @@ public class MyControllerTest {
     }
 
     @Test
-    public void testGetPer(){
+    public void testGetPer() throws Exception {
         when(mySao.findPer()).thenReturn(new Person("huctmock"));
         System.out.println(myController.getPer());
         Person pr = myController.getPer();
         Person person = new Person("huctmock");
         Assert.assertEquals(person,pr);
         System.out.println("===myService====="+myService.queryPer());
+
+        /**
+         *mock静态方法
+         */
         PowerMockito.mockStatic(MyServiceImpl.class);
         when(MyServiceImpl.getStr()).thenReturn("mockstatic");
         System.out.println(myController.getstrf());
+
+        /**
+         * mock私有方法
+         */
+        MyServiceImpl myServicePrivteMock = PowerMockito.spy(myService);
+        PowerMockito.when(myServicePrivteMock, "getPrivate").thenReturn("mockPrivate");
+        System.out.println(myServicePrivteMock.testPri());//公共方法testPri()调用了自己的私有方法getPrivate()
+        System.out.println(myService.testPri());
     }
 }
 

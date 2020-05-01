@@ -18,7 +18,18 @@ public class MyServiceImpl implements MyService {
 
     @Override
     public Person queryPer() {
+        System.out.println("in queryPer with getPrivate="+getPrivate());
         return mySao.findPer();
+    }
+
+    @Override
+    public String testPri() {
+        System.out.println("with getPrivate="+getPrivate());
+        return getPrivate();
+    }
+
+    private String getPrivate(){
+        return "realPrivate";
     }
 
     public static String getStr(){
